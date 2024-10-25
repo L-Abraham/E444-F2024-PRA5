@@ -1,4 +1,6 @@
 import requests
+import time
+import csv
 
 # Define the test cases
 test_cases = [
@@ -13,18 +15,16 @@ test_cases = [
 # URL for the deployed API (replace with your AWS Elastic Beanstalk endpoint)
 url = "http://serve-sentiment-env.eba-gt2b3ixf.us-east-2.elasticbeanstalk.com/predict"
 
-# Run each test case
-for i, test in enumerate(test_cases, 1):
-    try:
-        response = requests.post(url, json={"text": test["text"]})
-        if response.status_code == 200:
-            result = response.json().get("prediction")
-            if result == test["expected"]:
-                print(f"Test case {i} passed.")
-            else:
-                print(f"Test case {i} failed: expected {test['expected']} but got {result}.")
-        else:
-            print(f"Test case {i} failed with status code {response.status_code}")
-            print("Response text:", response.text)
-    except requests.exceptions.RequestException as e:
-        print(f"Test case {i} encountered an error: {e}")
+with open("latency_results.csv", "w", newline="") as csvfile:
+    writer = csv.writer(csvfile)
+    writer.writerow(["Test Case", "Request Number", "Response Time (ms)"])
+
+    for case_num, test in enumerate(test_cases, 1):
+        for i in range(100):
+            start_time = time.time()
+            response = requests.post(url, json={"text": test["text"]})
+            end_time = time.time()
+
+            # Calculate response time in milliseconds
+            response_time = (end_time - start_time) * 1000
+            writer.writerow([f"Case {case_num}", i + 1, response_time])
