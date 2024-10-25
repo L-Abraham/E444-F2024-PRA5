@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import pickle
 import os
 
-app = Flask(__name__)
+application = Flask(__name__)
 
 def load_model():
     with open("count_vectorizer.pkl", "rb") as vec_file:
@@ -14,7 +14,7 @@ def load_model():
 vectorizer, classifier = load_model()
 
 
-@app.route('/predict', methods=['POST'])
+@application.route('/predict', methods=['POST'])
 def predict():
     data = request.json
     text = data.get('text', '')
@@ -32,5 +32,5 @@ def predict():
     # Return the result as JSON
     return jsonify({'prediction': int_prediction})
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    application.run(host="127.0.0.1",port=5000, debug=True)

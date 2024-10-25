@@ -11,7 +11,7 @@ test_cases = [
 ]
 
 # URL for the deployed API (replace with your AWS Elastic Beanstalk endpoint)
-url = "http://127.0.0.1:5000/predict"
+url = "http://serve-sentiment-env.eba-gt2b3ixf.us-east-2.elasticbeanstalk.com/predict"
 
 # Run each test case
 for i, test in enumerate(test_cases, 1):
