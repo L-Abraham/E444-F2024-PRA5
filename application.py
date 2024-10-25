@@ -25,8 +25,12 @@ def predict():
     # Use the classifier to make a prediction
     prediction = classifier.predict(transformed_text)[0]
 
+    # Map the string output to integer
+    label_map = {'FAKE': 1, 'REAL': 0}
+    int_prediction = label_map.get(prediction, -1) 
+
     # Return the result as JSON
-    return jsonify({'prediction': int(prediction)})
+    return jsonify({'prediction': int_prediction})
 
 if __name__ == '__main__':
     app.run(debug=True)
