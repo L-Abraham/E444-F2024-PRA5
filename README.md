@@ -1,4 +1,4 @@
-# ML API Latency Test
+# ECE444-PRA5: Deploying an ML APP to the Cloud
 
 ## Latency Results
 Here were the averages for each case in ms:
